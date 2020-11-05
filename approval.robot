@@ -32,7 +32,13 @@ Show Approval List
     Open ${APPROVAL} Function
 
 Approve
-    Approve Pending eForm
+    Wait Until Element Is Visible    ${APPROVAL_ITEM_1}    timeout=10.0  error=No approval item found
+    Wait Until Element Is Visible    ${APPROVAL_SELECT_ALL}    timeout=10.0
+    Select Checkbox                  ${APPROVAL_SELECT_ALL}
+
+    Click ${APPROVAL_BATCH} Button Until Visible
+    Click ${APPROVAL_CONFIRM} Button Until Visible
+    Click ${APPROVAL_RESULT_CONFIRM} Button Until Visible
 
 Close Browser
     Close Browser
@@ -55,19 +61,11 @@ Wait Until Page Not Contains ${expected}
   Wait Until Keyword Succeeds    Page Should Not Contain expected    ${expected}    timeout=10.0
 
 
-Click Button Until Visible ${button}
+Click ${button} Button Until Visible
     Wait Until Element Is Visible    ${button}
     Click Button                     ${button}
 
 
-Approve Pending eForm
-    Wait Until Element Is Visible    ${APPROVAL_ITEM_1}    timeout=10.0  error=No approval item found
-    Wait Until Element Is Visible    ${APPROVAL_SELECT_ALL}    timeout=10.0
-    Select Checkbox                  ${APPROVAL_SELECT_ALL}
-
-    Click Button Until Visible     ${APPROVAL_BATCH}
-    Click Button Until Visible     ${APPROVAL_CONFIRM}
-    Click Button Until Visible     ${APPROVAL_RESULT_CONFIRM}
 
 
 
