@@ -16,7 +16,7 @@ ${APPROVAL}                              //*[@id="root"]/div/div/div/div[3]/div/
 ${APPROVAL_SELECT_ALL}                 //*[@id="root"]/div/div/div/div[3]/div/div/div/div[2]/div[1]/div[3]/div[1]/table/tbody/tr/th[6]/input
 
 ${APPROVAL_BATCH}                      //*[@id="root"]/div/div/div/div[3]/div/div/div/div[2]/div[1]/div[2]/div/button
-${APPROVAL_ITEM_1}                  //*[@id="root"]/div/div/div/div[3]/div/div/div/div[2]/div[1]/div[3]/div[2]/div[1]/table/tbody/tr[5]
+${APPROVAL_ITEM_1}                    //*[@id="root"]/div/div/div/div[3]/div/div/div/div[2]/div[1]/div[3]/div[2]/div[1]/table/tbody/tr/td[6]/input | //*[@id="root"]/div/div/div/div[3]/div/div/div/div[2]/div[1]/div[3]/div[2]/div[1]/table/tbody/tr[1]/td[6]/input
 
 ${APPROVAL_CONFIRM}                   //*[@id="root"]/div/div/div/div[3]/div/div/div/div[2]/div[2]/div/div[2]/form/div[2]/button[1]
 ${APPROVAL_RESULT_CONFIRM}                   //*[@id="root"]/div/div/div/div[3]/div/div/div/div[2]/div[3]/div/div[2]/div[2]/button
@@ -25,27 +25,27 @@ ${APPROVAL_RESULT_CONFIRM}                   //*[@id="root"]/div/div/div/div[3]/
 *** Test Cases ***
 
 Login Apollo
+    [Setup]   Set Selenium Timeout   10.0
     Login ${APOLLO_URL} With Credentials ${ID} And ${PWD}
 
 Show Approval List
     Open ${ATTENDANCE} Function
     Open ${APPROVAL} Function
 
+
+
 Approve
-    Wait Until Element Is Visible    ${APPROVAL_ITEM_1}    timeout=10.0  error=No approval item found
-    Wait Until Element Is Visible    ${APPROVAL_SELECT_ALL}    timeout=10.0
+    Wait Until Element Is Visible    ${APPROVAL_ITEM_1}   error=No approval item found
     Select Checkbox                  ${APPROVAL_SELECT_ALL}
+    Click ${APPROVAL_BATCH} Until Visible
+    Click ${APPROVAL_CONFIRM} Until Visible
+    Click ${APPROVAL_RESULT_CONFIRM} Until Visible
+    [Teardown]  Close Browser
 
-    Click ${APPROVAL_BATCH} Button Until Visible
-    Click ${APPROVAL_CONFIRM} Button Until Visible
-    Click ${APPROVAL_RESULT_CONFIRM} Button Until Visible
-
-Close Browser
-    Close Browser
 
 *** Keywords ***
 Open ${func} Function
-    Wait Until Element Is Visible      ${func}   timeout=10.0
+    Wait Until Element Is Visible      ${func}
     Click Element                      ${func}
 
 
@@ -58,12 +58,12 @@ Login ${url} With Credentials ${id} And ${pwd}
     Click Button       ${LOGIN_SUBMIT}
 
 Wait Until Page Not Contains ${expected}
-  Wait Until Keyword Succeeds    Page Should Not Contain expected    ${expected}    timeout=10.0
+  Wait Until Keyword Succeeds    Page Should Not Contain expected    ${expected}
 
 
-Click ${button} Button Until Visible
-    Wait Until Element Is Visible    ${button}
-    Click Button                     ${button}
+Click ${locator} Until Visible
+    Wait Until Element Is Visible    ${locator}
+    Click Element                     ${locator}
 
 
 

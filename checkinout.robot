@@ -84,14 +84,15 @@ Recheck
     [Arguments]             ${type}  ${time}
     Open Function           ${RECHECKINOUT}
 
-    Click Element           ${RECHECKINOUT_TYPE_DROPDOWN}
-    Click Element          ${type}
 
-    Click Element          ${RECHECKINOUT_TIME_DROPDOWN}
-    Click Element          ${time}
+    Click Element Until Visible          ${RECHECKINOUT_TYPE_DROPDOWN}
+    Click Element Until Visible          ${type}
 
-    Click Element         ${RECHECKINOUT_LOC_DROPDOWN}
-    Click Element         ${RECHECKINOUT_LOC_ERT}
+    Click Element Until Visible          ${RECHECKINOUT_TIME_DROPDOWN}
+    Click Element Until Visible          ${time}
 
-    Click Button          ${RECHECKINOUT_OK}
-    Click Button          ${RECHECKINOUT_CONFIRM}
+    Click Element Until Visible         ${RECHECKINOUT_LOC_DROPDOWN}
+    Click Element Until Visible         ${RECHECKINOUT_LOC_ERT}
+
+    Click Element Until Visible          ${RECHECKINOUT_OK}
+    Click Element Until Visible          ${RECHECKINOUT_CONFIRM}
