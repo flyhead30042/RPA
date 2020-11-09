@@ -27,16 +27,13 @@ ${RECHECKINOUT_OK}                      //*[@id="root"]/div/div/div/div[3]/div/d
 ${RECHECKINOUT_CONFIRM}                //*[@id="root"]/div/div[2]/div/div[2]/button[1]
 
 *** Test Cases ***
-Check In
+Check In and Out
     [Setup]   Set Selenium Timeout   10.0
     Login ${APOLLO_URL} With Credentials ${ID} And ${PWD}
     Recheck In
-    [Teardown]  Close Browser
-
-
-Check Out
-    [Setup]   Set Selenium Timeout   10.0
-    Login ${APOLLO_URL} With Credentials ${ID} And ${PWD}
+#    [Teardown]  Close Browser
+#    [Setup]   Set Selenium Timeout   10.0
+#    Login ${APOLLO_URL} With Credentials ${ID} And ${PWD}
     Recheck Out
     [Teardown]  Close Browser
 
