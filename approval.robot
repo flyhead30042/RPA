@@ -2,8 +2,8 @@
 Library    Selenium2Library    run_on_failure=Nothing
 
 *** Variables ***
-${ID}                                         c.i.hsiao@ericsson.com
-${PWD}                                        brU4epC8
+#${ID}                                         c.i.hsiao@ericsson.com
+#${PWD}                                        brU4epC8
 
 ${APOLLO_URL}                                      https://auth.mayohr.com/HRM/Account/Login
 ${LOGIN_ID}                                 //*[@id="root"]/div/div[2]/div[1]/div/div[2]/div/div/form/div[1]/input
