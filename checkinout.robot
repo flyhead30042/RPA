@@ -36,7 +36,7 @@ Check In
 
 Check Out
     [Setup]   Set Selenium Timeout   10.0
-    Login ${APOLLO_URL}  With Credentials ${ID}  And ${PWD}
+    Login ${APOLLO_URL} With Credentials ${ID} And ${PWD}
     Recheck Out
     [Teardown]  Close Browser
 
