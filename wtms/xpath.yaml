@@ -1,0 +1,7 @@
+XPATH:
+  LOGIN_ID_TF : '/html/body/div/div/div[2]/form/div[1]/input'
+  LOGIN_PWD_TF : '/html/body/div/div/div[2]/form/div[2]/input'
+  LOGIN_SUBMIT_BTN : '/html/body/div/div/div[2]/form/div[4]/button'
+  CLOCK_TIME_TF: "/html/body/div[1]/div/div[2]/div[2]/div[2]/div/input"
+  CLOCK_ON_DIV: "/html/body/div[1]/div/div[3]/div[1]/div[1]/div"
+  CLOCK_OUT_DIV: "/html/body/div[1]/div/div[3]/div[1]/div[2]/div"
