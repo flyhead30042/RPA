@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+
+  worker:
+    build: .
+    image: wtms:1
+    environment:
+      WTMS_ID: "ecihsia"
+      WTMS_PWD: "ZAQ!xsw2"
+      WTMS_URL: "https://working-time-management-system-tw.internal.ericsson.com/#/login"
+      PYTHONPATH: "/usr/local/RPA:${PYTHONPATH}"
+    volumes:
+      - .:/usr/local/RPA
+      - C:\\workspace\\citest\\RPA\\wtmsc\\xpath.yaml:/usr/local/RPA/wtms/xpath.yaml
+    command: "python -m wtms.clock"
