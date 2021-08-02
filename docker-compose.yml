@@ -1,15 +1,23 @@
 version: '3.9'
 services:
+  chrome:
+    image: selenium/standalone-chrome:latest
+    ports:
+      - 4444:4444
 
-  worker:
+  wtms:
     build: .
-    image: wtms:1
+    image: flyhead/wtms:2021.0.1
     environment:
-      WTMS_ID: "ecihsia"
-      WTMS_PWD: "ZAQ!xsw2"
-      WTMS_URL: "https://working-time-management-system-tw.internal.ericsson.com/#/login"
-      PYTHONPATH: "/usr/local/RPA:${PYTHONPATH}"
+      - LOGGING_LEVEL=INFO
+      - WTMS_ID=ecihsia
+      - WTMS_PWD=ZAQ!xsw2
+      - WTMS_URL=https://working-time-management-system-tw.internal.ericsson.com/#/login
+      - CLOCK_ON_TIME=09:30
+      - CLOCK_OUT_TIME=18:30
+      - PYTHONPATH=/usr/local/src/wtms
     volumes:
-      - .:/usr/local/RPA
-      - C:\\workspace\\citest\\RPA\\wtmsc\\xpath.yaml:/usr/local/RPA/wtms/xpath.yaml
-    command: "python -m wtms.clock"
+      - ./wtms:/usr/local/src/wtms
+    command: "python /usr/local/src/wtms/app.py"
+    depends_on:
+      - chrome
