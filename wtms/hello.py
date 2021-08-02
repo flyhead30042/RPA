@@ -5,12 +5,11 @@ from time import sleep
 from selenium import webdriver
 
 
-logger = logging.getLogger(__name__)
-
 
 logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s | %(name)s | %(levelname)s | %(message)s"
                     )
+logger = logging.getLogger(__name__)
 
 def main():
     logger.info("Load webdriver")
@@ -32,7 +31,8 @@ def main():
     }
 
     # driver = webdriver.Remote("http://chrome:4444/wd/hub", options=options)
-    driver = webdriver.Remote("http://localhost:4444/wd/hub", options=options, desired_capabilities = capabilities)
+    # driver = webdriver.Remote("http://localhost:4444/wd/hub", options=options, desired_capabilities = capabilities)
+    driver = webdriver.Remote("http://localhost:4444/wd/hub", options=options)
 
     try:
         # driver.get("https://www.google.com/")
