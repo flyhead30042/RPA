@@ -4,10 +4,10 @@ from selenium import webdriver
 
 logger = logging.getLogger(__name__)
 
-#
-# logging.basicConfig(level=logging.INFO,
-#                     format="%(asctime)s | %(name)s | %(levelname)s | %(message)s"
-#                     )
+
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s | %(name)s | %(levelname)s | %(message)s"
+                    )
 
 def main():
     logger.info("Load webdriver")
@@ -18,14 +18,17 @@ def main():
     options.add_argument('--headless')
     options.add_argument("--no-sandbox")   #Bypass OS security model
     options.add_argument("--disable-dev-shm-usage")  # overcome limited resource problems
-    options.add_argument('--window-size=1420,1080')
+    # options.add_argument('--window-size=1420,1080')
     options.add_argument('--disable-gpu')
 
-    driver = webdriver.Remote("http://chrome:4444/wd/hub", options=options)
+    # driver = webdriver.Remote("http://chrome:4444/wd/hub", options=options)
+    driver = webdriver.Remote("http://localhost:4444/wd/hub", options=options)
 
     try:
-        logger.info("Open http://www.google.com")
-        driver.get("http://www.google.com")
+        logger.info("Open https://working-time-management-system-tw.internal.ericsson.com")
+        driver.get("https://working-time-management-system-tw.internal.ericsson.com")
+        # driver.get("https://www.google.com")
+        driver.
         driver.save_screenshot('test.png')
         logging.info("title=" + driver.title)
     finally:
