@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 from typing import NamedTuple, AnyStr, Hashable, Any, Dict
-import yaml
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -10,14 +10,24 @@ from selenium.webdriver.support import expected_conditions as EC
 import logging
 from selenium.common.exceptions import TimeoutException
 from functools import wraps
+import yaml
+import platform
 
-d = os.path.dirname(__file__)
-fname = os.path.join(d, "xpath.yaml")
-with open(fname, "r", encoding="utf-8") as f:
-    xpath: Dict[Hashable, Any] = yaml.load(f, Loader=yaml.FullLoader)["XPATH"]
+
+
+class Config():
+    def __init__(self):
+        d = os.path.dirname(__file__)
+        fname = os.path.join(d, "xpath.yaml")
+        with open(fname, "r", encoding="utf-8") as f:
+            self.xpath: Dict[Hashable, Any] = yaml.load(f, Loader=yaml.FullLoader)["XPATH"]
+
+xpath  = Config().xpath
+driver = webdriver.Chrome(executable_path="./chromedriver.exe") if platform.system() == "Windows" else webdriver.Chrome(executable_path="./chromedriver")
+logger = logging.getLogger(__name__)
+
 
 TIMESTAMP1 = datetime.now().strftime("%Y%m%d_%H%M%S")
-logger = logging.getLogger(__name__)
 
 def click_element(driver, xpath) -> None:
     driver.find_element_by_xpath(xpath).click()
@@ -81,7 +91,7 @@ def click_until_presence(driver, wc:WaitCondition):
         return wrapper
     return decorate
 
-
+@wait_until_presence(driver = driver, wc=WaitCondition(timeout=15, xpath=xpath["LOGIN_SUBMIT_BTN"]))
 def loginWithCredentials(driver, credential: Credential):
     input_text(driver, xpath["LOGIN_ID_TF"], credential.id)
     input_text(driver, xpath["LOGIN_PWD_TF"], credential.pwd)
