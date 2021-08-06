@@ -1,32 +1,37 @@
 import logging
 import os
+from datetime import datetime
+from typing import AnyStr
 
 from apscheduler.schedulers.background import BlockingScheduler
 import hello
-# import clock
+import clock
 
-logging_level = {"INFO": logging.INFO, "DEBUG": logging.DEBUG, "ERROR": logging.ERROR}
-logging.basicConfig(level=logging_level[os.environ.get("LOGGING_LEVEL", "INFO")],
-                    format="%(asctime)s | %(name)s | %(levelname)s | %(message)s"
-                    )
+level = logging.getLevelName(os.environ.get('LOG_LEVEL', 'DEBUG'))
+logging.basicConfig(level=level, format="%(asctime)s | %(name)s | %(levelname)s | %(message)s")
 logger = logging.getLogger(__name__)
-
+level = logging.getLevelName(os.environ.get('LOG_LEVEL', 'INFO'))
+logger.setLevel(level)
 os.environ['TZ'] = 'Asia/Taipei'
 
+def get_cron_time(timestr:AnyStr):
+    time = datetime.strptime(timestr, "%H:%M")
+    cron_hr = str(time.hour)
+    cron_min = str(time.minute)
+    return cron_hr, cron_min
 
 if __name__ == "__main__":
     # BlockingScheduler: use when the scheduler is the only thing running in your process
     scheduler = BlockingScheduler()
 
     # Schedules the clock.main() to be executed.
-    # TASKER_CLOCK_HOUR = os.environ.get("SCHEDULER_CLOCK_HOUR", 12)
-    # TASKER_CLOCK_MINUTE = os.environ.get("TASKER_CLOCK_MINUTE", 45)
-    # logger.info(f"0. Add clock job w/ schedule at {TASKER_CLOCK_HOUR}:{TASKER_CLOCK_MINUTE}, Mon.~Fri.")
-    # scheduler.add_job(clock.main, 'cron', day_of_week='mon-fri', hour=TASKER_CLOCK_HOUR, minute=TASKER_CLOCK_MINUTE,
-    #                   start_date='2021-03-23 12:00:00', timezone='Asia/Taipei')
+    cron_hr, cron_min = get_cron_time(os.environ.get("CRON_CLOCK", "14:30"))
+    logger.info(f"0. Add clock job w/ schedule at {cron_hr}:{cron_min}, Mon.~Fri.")
+    scheduler.add_job(clock.main, 'cron', day_of_week='mon-fri', hour=cron_hr, minute=cron_min,
+                      start_date='2021-03-23 12:00:00', timezone='Asia/Taipei')
 
-    # !! Testing !!
-    scheduler.add_job(hello.main, 'interval', id='hello.main', seconds=15)
+    # !! For Testing !!
+    # scheduler.add_job(clock.main, 'interval', id='hello.main', seconds=15)
 
     # Schedules the approve.main() to be executed.
 
