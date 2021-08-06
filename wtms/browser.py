@@ -1,8 +1,7 @@
 import os
 from datetime import datetime
-from typing import NamedTuple, AnyStr, Hashable, Any, Dict
+from typing import NamedTuple, AnyStr, Hashable, Any, Dict, List
 import yaml
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -18,6 +17,8 @@ with open(fname, "r", encoding="utf-8") as f:
 
 TIMESTAMP1 = datetime.now().strftime("%Y%m%d_%H%M%S")
 logger = logging.getLogger(__name__)
+level = logging.getLevelName(os.environ.get('LOG_LEVEL', 'INFO'))
+logger.setLevel(level)
 
 def click_element(driver, xpath) -> None:
     driver.find_element_by_xpath(xpath).click()
@@ -86,6 +87,7 @@ def loginWithCredentials(driver, credential: Credential):
     input_text(driver, xpath["LOGIN_ID_TF"], credential.id)
     input_text(driver, xpath["LOGIN_PWD_TF"], credential.pwd)
     click_element(driver, xpath["LOGIN_SUBMIT_BTN"])
+
 
 
 
