@@ -1,9 +1,11 @@
-# 快速安裝
-## 所需環境 
+# WTMS 自動打卡
+
+## 快速安裝
+### 所需環境 
 * 在 Windows 10 下使用 WSL 2  建立 Docker 執行環境 
 * WSL2 安裝說明: https://docs.microsoft.com/zh-tw/windows/wsl/install-win10
 
-## 安裝步驟
+### 安裝步驟
 * cd C:\Users\<USER_NAME>\AppData\local
 * 建立新目錄 RPA 
 * 下載 https://github.com/flyhead30042/RPA/blob/master/docker-compose.yml 至 RPA 目錄下
@@ -48,4 +50,8 @@ rpa_chrome_1        "/opt/bin/entry_poin…"   chrome              running      
 rpa_wtms_1          "python /usr/local/s…"   wtms                running
 ```
 
- 
+## 系統參數說明
+* TBC
+
+## Troubleshooting
+ * TBC
