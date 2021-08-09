@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  chrome:
+    image: selenium/standalone-chrome:latest
+    ports:
+      - 4444:4444
+    environment:
+      - TZ=Asia/Taipei
+
+  wtms:
+    image: flyhead/wtms:2021.0.1
+    environment:
+      - WTMS_URL=${WTMS_URL}
+      - WTMS_ID=${WTMS_ID}
+      - WTMS_PWD=${WTMS_PWD}
+      - CLOCK_ON_TIME=${CLOCK_ON_TIME}
+      - CLOCK_OUT_TIME=${CLOCK_OUT_TIME}
+      - CRONTAB_CLOCK=${CRONTAB_CLOCK}
+      - PYTHONPATH=/usr/local/src/wtms
+      - TZ=Asia/Taipei
+    volumes:
+      - ./wtms/screenshot:/usr/local/src/wtms/screenshot
+    command: "python /usr/local/src/wtms/app.py"
+    depends_on:
+      - chrome
