@@ -9,6 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import logging
 from selenium.common.exceptions import TimeoutException
 from functools import wraps
+from time import sleep
 
 d = os.path.dirname(__file__)
 fname = os.path.join(d, "xpath.yaml")
@@ -34,13 +35,14 @@ def input_text(driver, xpath, text) -> None:
 class WaitCondition(NamedTuple):
     timeout:int = 15
     xpath:AnyStr= None
+    sleep:int = 3
 
 class Credential(NamedTuple):
     id:str
     pwd:str
 
 
-def wait_until_presence(driver, wc:WaitCondition):
+def wait_until_presence(wc:WaitCondition):
     """
     Tag lib, function type with arguments
     Wait for presence of the web element
@@ -55,9 +57,10 @@ def wait_until_presence(driver, wc:WaitCondition):
         @wraps(func)
         def wrapper(*args, **kwargs):
             logger.debug("Enter wait_until_presence tag，Func={}".format(func.__name__))
-            logger.debug("timeout={}, xpath={}".format(wc.timeout, wc.xpath))
+            logger.debug("timeout={}, xpath={}, sleep={}".format(wc.timeout, wc.xpath, wc.sleep))
             try:
-                WebDriverWait(driver, wc.timeout).until(EC.presence_of_element_located((By.XPATH, wc.xpath)))
+                WebDriverWait(args[0], wc.timeout).until(EC.presence_of_element_located((By.XPATH, wc.xpath)))
+                if wc.sleep > 0: sleep(wc.sleep)
                 return func(*args, **kwargs)
             except TimeoutException as e:
                 e.msg = "func={}".format(func.__name__)
@@ -67,13 +70,15 @@ def wait_until_presence(driver, wc:WaitCondition):
 
     return decorate
 
-def click_until_presence(driver, wc:WaitCondition):
+def click_until_presence(wc:WaitCondition):
     def decorate(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             logger.debug("Enter open_function tag, Func={}".format(func.__name__))
+            logger.debug("timeout={}, xpath={}, sleep={}".format(wc.timeout, wc.xpath, wc.sleep))
             try:
-                element = WebDriverWait(driver, wc.timeout).until(EC.presence_of_element_located((By.XPATH, wc.xpath)))
+                element = WebDriverWait(args[0], wc.timeout).until(EC.presence_of_element_located((By.XPATH, wc.xpath)))
+                if wc.sleep > 0: sleep(wc.sleep)
                 element.click()
                 return func(*args, **kwargs)
             except TimeoutException as e:

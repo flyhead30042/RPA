@@ -7,22 +7,21 @@ services:
     environment:
       - TZ=Asia/Taipei
 
-
   wtms:
     build: .
     image: flyhead/wtms:2021.0.1
     environment:
-      - WTMS_URL=https://working-time-management-system-tw.internal.ericsson.com/#/login
-      - WTMS_ID=ecihsia
-      - WTMS_PWD=ZAQ!xsw2
-      - CLOCK_ON_TIME=09:30
-      - CLOCK_OUT_TIME=18:30
-      - CRON_CLOCK=15:10
-      - LOG_LEVEL=INFO
+      - WTMS_URL=${WTMS_URL}
+      - WTMS_ID=${WTMS_ID}
+      - WTMS_PWD=${WTMS_PWD}
+      - CLOCK_ON_TIME=${CLOCK_ON_TIME}
+      - CLOCK_OUT_TIME=${CLOCK_OUT_TIME}
+      - CRONTAB_CLOCK=${CRONTAB_CLOCK}
       - PYTHONPATH=/usr/local/src/wtms
       - TZ=Asia/Taipei
     volumes:
       - ./wtms:/usr/local/src/wtms
+      - ./wtms/screenshot:/usr/local/src/wtms/screenshot
     command: "python /usr/local/src/wtms/app.py"
     depends_on:
       - chrome
