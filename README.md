@@ -22,19 +22,20 @@ CRONTAB_CLOCK="15 13 * * mon-fri"
 LOG_LEVEL=INFO
 ```  
 
-
-* cd C:\Users\<USER_NAME>\AppData\local\RPA
-* 執行下列指令 ，因為下載 image ，第一次會較久
+* 切換到 RPA 目錄下
+```commandline
+cd C:\Users\<USER_NAME>\AppData\local\RPA
+```
+* 執行下列指令開始部屬 ，第一次執行需下載 image ，會需要較久的時間
 ```commandline
 docker-compose -f .\docker-compose.yml up -d chrome
 docker-compose -f .\docker-compose.yml up -d wtms
 ```
 
-* 執行下列指令確定 selenium/standalone-chrome 和 flyhead/wtms images 正確下載 
+* 執行下列指令確定 selenium/standalone-chrome 和 flyhead/wtms 兩個 images 正確下載 
 ```commandline
-docker-compose images`
+docker-compose images
 ```
-
 
 ```shell
 Container           Repository                   Tag                 Image Id            Size
@@ -43,7 +44,9 @@ rpa_wtms_1          flyhead/wtms                 2021.0.1            2e089bfe0d4
 ```
 
 * 執行下列指令確定 container 正確執行 
-
+```commandline
+docker-compose ps
+```
 ```shell
 NAME                COMMAND                  SERVICE             STATUS              PORTS
 rpa_chrome_1        "/opt/bin/entry_poin…"   chrome              running             0.0.0.0:4444->4444/tcp, :::4444->4444/tcp
