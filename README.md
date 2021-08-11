@@ -79,12 +79,12 @@ docket-compose logs
 docket-compose down
 ```
 
- 查詢使用的 image 
+* 查詢使用的 image 
 ```commandline
 docket-compose images
 ```
 
-查詢使用的 container 
+* 查詢使用的 container 
 ```commandline
 docket-compose ps
 ```
