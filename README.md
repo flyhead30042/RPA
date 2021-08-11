@@ -2,17 +2,23 @@
 
 ## 快速安裝
 ### 所需環境 
-* 在 Windows 10 下使用 WSL 2  建立 Docker 執行環境 
-* WSL2 安裝說明: https://docs.microsoft.com/zh-tw/windows/wsl/install-win10
+
+* 安裝 WSL2， 安裝說明: https://docs.microsoft.com/zh-tw/windows/wsl/install-win10
+* 安裝 Docker Desktop for Windows，安裝說明: https://docs.docker.com/docker-for-windows/install/
+(在Docker Desktop安裝後可略過Tutorial)
 
 ### 安裝步驟
-* cd C:\Users\<USER_NAME>\AppData\local
-* 建立新目錄 RPA 
+* 建立新目錄 RPA
+```shell
+cd C:\Users\<USER_NAME>\AppData\local
+mkdir RPA
+```
+
 * 下載 https://github.com/flyhead30042/RPA/blob/master/docker-compose.yml 至 RPA 目錄下
 * 建立環境變數檔 .env，
 * 複製下列內容至 .env 中
 
-```buildoutcfg
+```commandline
 WTMS_URL=https://working-time-management-system-tw.internal.ericsson.com/#/login
 WTMS_ID=your_login_id (記得要修改)
 WTMS_PWD=your_login_password (記得要修改)
@@ -54,7 +60,34 @@ rpa_wtms_1          "python /usr/local/s…"   wtms                running
 ```
 
 ## 系統參數說明
-* TBC
+* WTMS_URL: WTMS 網址
+* WTMS_ID: 登入 WTMS 帳號
+* WTMS_PWD: 登入 WTMS 密碼
+* CLOCK_ON_TIME: 打卡上班的時間，格式 hh:mm ，ex. 09:30
+* CLOCK_OUT_TIME: 打卡下班的時間，格式 hh:mm ，ex. 18:45
+* CRONTAB_CLOCK：打卡系統啟動時間，格式比照 crontab， mm hh DD MM Day of Week， 
+ex. 15 13 * * mon-fri 代表周一到周五每天 13:15 會執行， */15 18 * * * 代表每天六點開始，每隔15分鐘執行，最後記得要用雙引號括起來
+* LOG_LEVEL: logging 等級，支援 DEBUG, INFO, ERROR
+
+## 常用指令
+* 看 log
+```commandline
+docket-compose logs
+```
+* 暫停並移除 container 
+```commandline
+docket-compose down
+```
+
+ 查詢使用的 image 
+```commandline
+docket-compose images
+```
+
+查詢使用的 container 
+```commandline
+docket-compose ps
+```
 
 ## Troubleshooting
  * TBC
