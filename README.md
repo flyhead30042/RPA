@@ -93,7 +93,7 @@ docket-compose ps
 ## Troubleshooting
  * 如果你習慣每天關機，那請務必啟用 Docker Desktop Setting 中 "Start Docker Desktop when you log in"，並查詢 container 執行狀況，或者建議使用 Hibernate 取代關機
  * 兩種方式可以確定執行狀況
- * 1) 檢查 log 
+ ** 1) 檢查 log 
  ```
  docker-compose logs  wtms  --tail=20  
  
@@ -104,4 +104,4 @@ wtms_1  | 2021-08-12 13:15:11,397 | clock | INFO | 3. Clock On at 09:30
 wtms_1  | 2021-08-12 13:15:22,748 | clock | INFO | 4. Clock Out at 18:30
 wtms_1  | 2021-08-12 13:15:26,174 | apscheduler.executors.default | INFO | Job "main (trigger: cron[month='*', day='*', day_of_week='mon-fri', hour='13', minute='15'], next run at: 2021-08-13 13:15:00 CST)" executed successfully
  ```
- * 2) C:\Users\<USER_NAME>\AppData\local\RPA\wtms\screenshot 下有四個螢幕截圖，代表開啟網站，登入，clock in 和 clock out 
+ ** 2) C:\Users\<USER_NAME>\AppData\local\RPA\wtms\screenshot 下有四個螢幕截圖，代表開啟網站，登入，clock in 和 clock out 
