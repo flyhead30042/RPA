@@ -94,7 +94,7 @@ docket-compose ps
  * 下班後，建議使用 Hibernate 取代關機，因為就算啟用 Docker Desktop Setting 中 "Start Docker Desktop when you log in"，Conatiner 也不會自動執行
  * 
  * 兩種方式可以確定執行狀況
- ** 1) 檢查 log 
+ * 1) 檢查 log 
  ```
  docker-compose logs  wtms  --tail=20  
  
@@ -105,7 +105,7 @@ wtms_1  | 2021-08-12 13:15:11,397 | clock | INFO | 3. Clock On at 09:30
 wtms_1  | 2021-08-12 13:15:22,748 | clock | INFO | 4. Clock Out at 18:30
 wtms_1  | 2021-08-12 13:15:26,174 | apscheduler.executors.default | INFO | Job "main (trigger: cron[month='*', day='*', day_of_week='mon-fri', hour='13', minute='15'], next run at: 2021-08-13 13:15:00 CST)" executed successfully
  ```
- ** 2) C:\Users\<USER_NAME>\AppData\local\RPA\wtms\screenshot 下有四個螢幕截圖，代表開啟網站(open.png)，登入(login.png)，clock in (clock_in.png)和 clock out(clock_out.png)。系統會覆蓋之前的截圖，所以永遠只有四張最新的截圖。
+ * 2) C:\Users\<USER_NAME>\AppData\local\RPA\wtms\screenshot 下有四個螢幕截圖，代表開啟網站(open.png)，登入(login.png)，clock in (clock_in.png)和 clock out(clock_out.png)。系統會覆蓋之前的截圖，所以永遠只有四張最新的截圖。
  
  * 除了上述的方式，也可以到右下角 tray 中，右鍵點選小鯨魚，選擇 "Dashboard"，"Containers/Apps"，就可以看見執行中的 Containers: rpa_chrome_1 和 rpa_wtms_1，顏色應該是淺藍色，如果是橘色或灰色則代表有錯誤發生了
  * 點選 container，可以看到 container 的 輸出 log
