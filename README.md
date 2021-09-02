@@ -38,6 +38,13 @@ docker-compose -f .\docker-compose.yml up -d chrome
 docker-compose -f .\docker-compose.yml up -d wtms
 ```
 
+* 執行下面指令，讓 docker engine 重開後也會自動把 container 帶起來
+
+```comandline
+docker update --restart unless-stopped rpa_chrome_1 
+docker update --restart unless-stopped rpa_wtms_1
+```
+
 * 執行下列指令確定 selenium/standalone-chrome 和 flyhead/wtms 兩個 images 正確下載 
 ```commandline
 docker-compose images
@@ -91,8 +98,6 @@ docket-compose ps
 ```
 
 ## Q&A
- * 下班後，建議使用 Hibernate 取代關機，因為就算啟用 Docker Desktop Setting 中 "Start Docker Desktop when you log in"，Conatiner 也不會自動執行
- * 
  * 兩種方式可以確定執行狀況
  * 1) 檢查 log 
  ```
