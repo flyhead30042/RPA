@@ -10,3 +10,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy all the file to workdir
 COPY wtms  ./
+COPY wtms/templates  ./templates

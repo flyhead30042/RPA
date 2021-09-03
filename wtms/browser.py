@@ -24,12 +24,14 @@ logger.setLevel(level)
 def click_element(driver, xpath) -> None:
     driver.find_element_by_xpath(xpath).click()
 
-def input_text(driver, xpath, text) -> None:
+def input_text(driver, xpath, text, end_with_enter=False) -> None:
     element = driver.find_element_by_xpath(xpath)
     element.send_keys(Keys.CONTROL + "a");
     element.send_keys(Keys.DELETE);
 
     element.send_keys(text)
+    if end_with_enter:
+        element.send_keys(Keys.ENTER)
     logger.debug("text={}, TF={}".format(text, element.get_attribute("value")))
 
 class WaitCondition(NamedTuple):

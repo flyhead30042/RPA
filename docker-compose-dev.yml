@@ -9,7 +9,9 @@ services:
 
   wtms:
     build: .
-    image: flyhead/wtms:2021.0.1
+    image: flyhead/wtms:2021.0.2
+    ports:
+      - "5000:5000"
     environment:
       - WTMS_URL=${WTMS_URL}
       - WTMS_ID=${WTMS_ID}
@@ -19,6 +21,8 @@ services:
       - CRONTAB_CLOCK=${CRONTAB_CLOCK}
       - PYTHONPATH=/usr/local/src/wtms
       - TZ=Asia/Taipei
+      - FLASK_ENV=development
+      - FLASK_APP=wtms/app.py
     volumes:
       - ./wtms:/usr/local/src/wtms
       - ./wtms/screenshot:/usr/local/src/wtms/screenshot

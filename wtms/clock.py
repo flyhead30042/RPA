@@ -1,10 +1,11 @@
 from __future__ import annotations
 import logging
 import os
+from datetime import date
 
 from selenium.common.exceptions import TimeoutException
 from browser import xpath, loginWithCredentials, Credential, wait_until_presence, WaitCondition, input_text, \
-    click_element, TIMESTAMP1
+    click_element, TIMESTAMP1, click_until_presence
 from selenium import webdriver
 
 options = webdriver.ChromeOptions()
@@ -39,7 +40,7 @@ def clock_out(driver, time:str ="18:30"):
     driver.save_screenshot('screenshot/clock_out.png')
     click_element(driver, xpath["CLOCK_OUT_DIV"])
 
-def main():
+def doclock():
     driver = None
     try:
         driver = webdriver.Remote("http://chrome:4444/wd/hub", options=options)
@@ -49,7 +50,7 @@ def main():
         # driver.maximize_window()
         driver.save_screenshot('screenshot/open.png')
 
-        logger.info("2. login with credentials")
+        logger.info("2. Login with credentials")
         login(driver,
               id=os.environ.get("WTMS_ID", "myid"),
               pwd=os.environ.get("WTMS_PWD", "mypwd"))
@@ -76,5 +77,58 @@ def main():
     finally:
         driver.quit()
 
+
+@click_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["ATTENDANCE_LK"], sleep=3))
+@click_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["RECLOCK_LK"], sleep=3))
+@wait_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["RECLOCK_DATE_TF"], sleep=3))
+def reclock(driver, rc_date:str, rc_on_time:str, rc_out_time:str):
+    input_text(driver, xpath["RECLOCK_DATE_TF"], rc_date, True)
+    input_text(driver, xpath["RECLOCK_TIME_ON_TF"], rc_on_time, True)
+    input_text(driver, xpath["RECLOCK_TIME_OUT_TF"], rc_out_time, True)
+    input_text(driver, xpath["RECLOCK_REASON_TA"], "Reclock")
+    driver.save_screenshot('screenshot/reclock_on.png')
+    click_element(driver, xpath["RECLOCK_SUBMIT_BTN"])
+
+def doreclock(rc_day:str):
+    driver = None
+    try:
+        driver = webdriver.Remote("http://chrome:4444/wd/hub", options=options)
+        WTMS_URL = os.environ.get("WTMSURL", "https://working-time-management-system-tw.internal.ericsson.com/#/login")
+
+        logger.info(f"1. Open {WTMS_URL}")
+        driver.get(WTMS_URL)
+        # driver.maximize_window()
+        driver.save_screenshot('screenshot/open.png')
+
+        logger.info("2. Login with credentials")
+        login(driver,
+              id=os.environ.get("WTMS_ID", "myid"),
+              pwd=os.environ.get("WTMS_PWD", "mypwd"))
+
+        CLOCK_ON_TIME = os.environ.get("CLOCK_ON_TIME", "09:30")
+        CLOCK_OUT_TIME = os.environ.get("CLOCK_OUT_TIME", "18:30")
+        today = date.today()
+        year = today.strftime("%Y")
+        month = today.strftime("%m")
+        day = "{:0>2}".format(rc_day)
+        rc_date=f"{year}-{month}-{day}"
+        logger.info(F"3. Reclock on {rc_date}, {CLOCK_ON_TIME}-{CLOCK_OUT_TIME}")
+        reclock(driver, rc_date, CLOCK_ON_TIME, CLOCK_OUT_TIME)
+    except TimeoutException as e1:
+        logger.exception("TimeoutException:{}".format(str(e1)))
+        driver.save_screenshot("screenshot/TimeoutException-{}.png".format(TIMESTAMP1))
+        driver.quit()
+    except ConnectionResetError as e2:
+        logger.exception("ConnectionResetError:{}".format(str(e2)))
+        driver.save_screenshot("screenshot/ConnectionResetError-{}.png".format(TIMESTAMP1))
+        driver.quit()
+    except Exception as e:
+        logger.exception("Exception:{}".format(str(e)))
+        driver.save_screenshot("screenshot/Exception-{}.png".format(TIMESTAMP1))
+        driver.quit()
+    finally:
+        driver.quit()
+
+
 if __name__ == "__main__":
-    main()
+    doclock()

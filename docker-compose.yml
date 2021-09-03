@@ -8,7 +8,7 @@ services:
       - TZ=Asia/Taipei
 
   wtms:
-    image: flyhead/wtms:2021.0.1
+    image: flyhead/wtms:2021.0.2
     environment:
       - WTMS_URL=${WTMS_URL}
       - WTMS_ID=${WTMS_ID}
