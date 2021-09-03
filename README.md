@@ -39,8 +39,7 @@ docker-compose -f .\docker-compose.yml up -d wtms
 ```
 
 * 執行下面指令，讓 docker engine 重開後也會自動把 container 帶起來
-
-```comandline
+```commandline
 docker update --restart unless-stopped rpa_chrome_1 
 docker update --restart unless-stopped rpa_wtms_1
 ```
