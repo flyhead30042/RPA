@@ -14,7 +14,7 @@ cd C:\Users\<USER_NAME>\AppData\local
 mkdir RPA
 ```
 
-* 下載 https://github.com/flyhead30042/RPA/blob/master/docker-compose.yml 至 RPA 目錄下
+* 下載部屬檔 https://github.com/flyhead30042/RPA/blob/master/docker-compose.yml 至 RPA 目錄下
 * 建立環境變數檔 .env，
 * 複製下列內容至 .env 中
 
@@ -38,6 +38,13 @@ docker-compose -f .\docker-compose.yml up -d chrome
 docker-compose -f .\docker-compose.yml up -d wtms
 ```
 
+* 執行下面指令，讓 docker engine 重開後也會自動把 container 帶起來
+
+```comandline
+docker update --restart unless-stopped rpa_chrome_1 
+docker update --restart unless-stopped rpa_wtms_1
+```
+
 * 執行下列指令確定 selenium/standalone-chrome 和 flyhead/wtms 兩個 images 正確下載 
 ```commandline
 docker-compose images
@@ -59,6 +66,7 @@ rpa_chrome_1        "/opt/bin/entry_poin…"   chrome              running      
 rpa_wtms_1          "python /usr/local/s…"   wtms                running
 ```
 
+
 ## 系統參數說明
 * WTMS_URL: WTMS 網址
 * WTMS_ID: 登入 WTMS 帳號
@@ -70,9 +78,9 @@ ex. 15 13 * * mon-fri 代表周一到周五每天 13:15 會執行， */15 18 * *
 * LOG_LEVEL: logging 等級，支援 DEBUG, INFO, ERROR
 
 ## 常用指令
-* 看 log
+* 看 wtms service 最後20行 log
 ```commandline
-docket-compose logs
+docket-compose logs wtms --tails=20
 ```
 * 暫停並移除 container 
 ```commandline
@@ -84,10 +92,26 @@ docket-compose down
 docket-compose images
 ```
 
-* 查詢使用的 container 
+* 查詢使用的 container 狀況
 ```commandline
 docket-compose ps
 ```
 
-## Troubleshooting
- * TBC
+## Q&A
+ * 兩種方式可以確定執行狀況
+ * 1) 檢查 log 
+ ```
+ docker-compose logs  wtms  --tail=20  
+ 
+wtms_1  | 2021-08-12 13:15:00,015 | apscheduler.executors.default | INFO | Running job "main (trigger: cron[month='*', day='*', day_of_week='mon-fri', hour='13', minute='15'], next run at: 2021-08-13 13:15:00 CST)" (scheduled at 2021-08-12 13:15:00+08:00)
+wtms_1  | 2021-08-12 13:15:00,325 | clock | INFO | 1. Open https://working-time-management-system-tw.internal.ericsson.com/#/login
+wtms_1  | 2021-08-12 13:15:07,901 | clock | INFO | 2. login with credentials
+wtms_1  | 2021-08-12 13:15:11,397 | clock | INFO | 3. Clock On at 09:30
+wtms_1  | 2021-08-12 13:15:22,748 | clock | INFO | 4. Clock Out at 18:30
+wtms_1  | 2021-08-12 13:15:26,174 | apscheduler.executors.default | INFO | Job "main (trigger: cron[month='*', day='*', day_of_week='mon-fri', hour='13', minute='15'], next run at: 2021-08-13 13:15:00 CST)" executed successfully
+ ```
+ * 2) C:\Users\<USER_NAME>\AppData\local\RPA\wtms\screenshot 下有四個螢幕截圖，代表開啟網站(open.png)，登入(login.png)，clock in (clock_in.png)和 clock out(clock_out.png)。系統會覆蓋之前的截圖，所以永遠只有四張最新的截圖。
+ 
+ * 除了上述的方式，也可以到右下角 tray 中，右鍵點選小鯨魚，選擇 "Dashboard"，"Containers/Apps"，就可以看見執行中的 Containers: rpa_chrome_1 和 rpa_wtms_1，顏色應該是淺藍色，如果是橘色或灰色則代表有錯誤發生了
+ * 點選 container，可以看到 container 的 輸出 log
+ * 如果有需要重啟系統，請參考 "執行下列指令開始部屬...." 開始的指令重跑一次就可以了
