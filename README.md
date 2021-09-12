@@ -1,5 +1,19 @@
 # WTMS 自動打卡
 
+### Change Log
+* Build: flyhead/wtms:2021.0.1
+> 1. Create WTMS based on Docker solution
+> 2. Use Advance Python Scheduler for scheduling  
+> 3. Use Chrome Server on port 4444 for headless simulation   
+> 4. Add Clock job 
+
+* Build: flyhead/wtms:2021.0.2
+> 1. use Flask server for interworking on port 5000
+> 2. Add API for overview
+> 3. Add API for clock now
+> 4. Add API for viewiong PNG files under screenshot folder 
+> 5. Add API for approval of reclock requests
+
 ## 快速安裝
 ### 所需環境 
 
@@ -76,7 +90,24 @@ rpa_wtms_1          "python /usr/local/s…"   wtms                running
 ex. 15 13 * * mon-fri 代表周一到周五每天 13:15 會執行， */15 18 * * * 代表每天六點開始，每隔15分鐘執行，最後記得要用雙引號括起來
 * LOG_LEVEL: logging 等級，支援 DEBUG, INFO, ERROR
 
-## 常用指令
+## WTMS  指令
+* Overview: List all infomration of WTMS including parameters, status and availabe API etc
+```commandline
+http://localhost:5000/wtms
+```
+* Clock Now: Clock immediately
+```commandline
+http://localhost:5000/wtms/clock
+```
+* View Screenshot: List all files under screenshot folder with name and timestamp attached
+```commandline
+http://localhost:5000/wtms/screenshot
+```
+* Approve Reclock Now: Approve all reclock requests immediately. ** Note it requires the authorization setting on TWMS **	
+```commandline
+http://localhost:5000/wtms/approve
+```
+## 常用 Docker 指令
 * 看 wtms service 最後20行 log
 ```commandline
 docket-compose logs wtms --tails=20
