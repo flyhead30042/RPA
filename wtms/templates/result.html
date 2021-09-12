@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WTMS</title>
+    <style>
+      table,
+      td {
+          border: 1px solid #bfbfbf;
+      }
+      thead,
+      tfoot {
+          background-color: #6495ED;
+          color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1> Work Time Management System </h1>
+    <div>
+      <p>{{ data["msg"] }}</p>
+    </div>
+
+    <div>
+      <h4>APIs</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Overview</td>
+            <td>List all infomration of WTMS including parameters, status and availabe API etc</td>
+            <td><a target='_blank' href='/wtms'>Link</a></td>
+          </tr>
+          <tr>
+            <td>Clock Now</td>
+            <td>Clock immediately</td>
+            <td><a target='_blank' href='/wtms/clock'>Link</a></td>
+          </tr>
+          <tr>
+            <td>View Screenshot</td>
+            <td>List all files under screenshot folder with name and timestamp attached</td>
+            <td><a target='_blank' href='/wtms/screenshot'>Link</a></td>
+          </tr>
+          <tr>
+            <td>Approve Reclock Now</td>
+            <td> Approve all reclock requests immediately. <b>** Note it requires the authorization setting on TWMS **</b></td>
+            <td><a target='_blank' href='/wtms/approve'>Link</a></td>
+          </tr>
+        </tbody>
+        </table>
+    </div>
+
+
+  </body>
+</html>

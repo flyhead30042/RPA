@@ -66,16 +66,22 @@ def scrrenshot_route(pngname):
     return send_from_directory(directory=app.root_path + "/screenshot/",  filename=pngname, as_attachment=False, cache_timeout=0 )
 
 if __name__ == "__main__":
-    # Schedules clock task
+    '''
+    Schedules clock task    
+    '''
     crontab = os.environ.get("CRONTAB_CLOCK", "15 13 * * mon-fri")
     job:Job = scheduler.add_job(doclock, CronTrigger.from_crontab(crontab))
     logger.info("0. Add {}(), {}".format(job.func_ref, job.trigger))
 
-
+    '''
+    TODO: Out-of-Office 
+    '''
     # scheduler.add_job(clock_main, 'cron', day_of_week='mon-fri', hour=cron_hr, minute=cron_min,
     #                   start_date='2021-03-23 12:00:00', timezone='Asia/Taipei')
 
-    # Schedules approve_all task
+    '''
+    Schedules approve_all task    
+    '''
     if os.environ.get("CRONTAB_APPROVE_ALL_ENABLED", "false").lower() == "true":
         crontab = os.environ.get("CRONTAB_APPROVE_ALL", "45 13 * * wed")
         job:Job = scheduler.add_job(doapprove_all, CronTrigger.from_crontab(crontab))

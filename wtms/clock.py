@@ -173,6 +173,6 @@ def doreclock(rc_day:str):
     finally:
         driver.quit()
 
-
-if __name__ == "__main__":
-    doclock()
+#
+# if __name__ == "__main__":
+#     doclock()
