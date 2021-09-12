@@ -47,10 +47,13 @@ LOG_LEVEL=INFO
 cd C:\Users\<USER_NAME>\AppData\local\RPA
 ```
 
-
-* 執行下列指令進行部屬 ，先移除舊 container，然後開始下載image 並安裝，第一次執行需下載 image ，會需要較久的時間
+執行下列指令先移除舊 container，
 ```commandline
 docker-compose -f .\docker-compose.yml down
+```
+
+* 執行下列指令進行部屬，第一次執行需下載 image ，會需要較久的時間
+```commandline
 docker-compose -f .\docker-compose.yml up -d chrome
 docker-compose -f .\docker-compose.yml up -d wtms
 ```
