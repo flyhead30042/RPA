@@ -46,8 +46,11 @@ LOG_LEVEL=INFO
 ```commandline
 cd C:\Users\<USER_NAME>\AppData\local\RPA
 ```
-* 執行下列指令開始部屬 ，第一次執行需下載 image ，會需要較久的時間
+
+
+* 執行下列指令進行部屬 ，先移除舊 container，然後開始下載image 並安裝，第一次執行需下載 image ，會需要較久的時間
 ```commandline
+docker-compose -f .\docker-compose.yml down
 docker-compose -f .\docker-compose.yml up -d chrome
 docker-compose -f .\docker-compose.yml up -d wtms
 ```
@@ -58,7 +61,7 @@ docker update --restart unless-stopped rpa_chrome_1
 docker update --restart unless-stopped rpa_wtms_1
 ```
 
-* 執行下列指令確定 selenium/standalone-chrome 和 flyhead/wtms 兩個 images 正確下載 
+* 執行下列指令確定 selenium/standalone-chrome 和 flyhead/wtms 兩個 images 正確下載，記得要確認 Tag 中的版本編號為最新的版本 
 ```commandline
 docker-compose images
 ```
