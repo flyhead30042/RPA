@@ -3,50 +3,50 @@
   <head>
     <meta charset="utf-8">
     <title>WTMS</title>
-<style>
+      <style>
 
-div.gallery {
-  margin: 5px;
-  border: 1px solid #ccc;
-  float: left;
-  width: 300px;
-}
+        div.gallery {
+          margin: 5px;
+          border: 1px solid #ccc;
+          float: left;
+          width: 300px;
+        }
 
-div.gallery:hover {
-  border: 1px solid #777;
-}
+        div.gallery:hover {
+          border: 1px solid #777;
+        }
 
-div.gallery img {
-  width: 100%;
-  height: auto;
-}
+        div.gallery img {
+          width: 100%;
+          height: auto;
+        }
 
-div.desc {
-  padding: 15px;
-  text-align: center;
-}
+        .desc {
+          padding: 15px;
+          text-align: center;
+        }
 
-p.thick {
-  font-weight: bold;
-}
+        p.thick {
+          font-weight: bold;
+        }
 
-</style>
-
+      </style>
   </head>
 
   <body>
     <h1> Work Time Management System </h1>
 
-        {% for f, c, m , s in table %}
+        {% for f, c, m , s in data %}
         <div class="gallery">
             <a target="_blank" href="{{ s }}">
-                <img src="{{ s }}" alt="{{f}}" width="600" height="400">
+                <p>
+                    <img src="{{ s }}" alt="{{f}}" width="600" height="400">
+                </p>
+                <dl class="desc">
+                    <dt class="thick">{{ f }}</dt>
+                    <dd>{{ m }}</dd>
+                </dl>
             </a>
-            <div class="desc">
-                <p class="thick">{{ f }}</p>
-                <p>{{ c }}</p>
-                <p>{{ m }}</p>
-            </div>
         </div>
         {% endfor %}
   </body>

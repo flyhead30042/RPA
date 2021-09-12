@@ -5,7 +5,7 @@ from datetime import date
 
 from selenium.common.exceptions import TimeoutException
 from browser import xpath, loginWithCredentials, Credential, wait_until_presence, WaitCondition, input_text, \
-    click_element, TIMESTAMP1, click_until_presence
+    click_element, TIMESTAMP1, click_until_presence, get_text
 from selenium import webdriver
 
 options = webdriver.ChromeOptions()
@@ -21,20 +21,20 @@ logger = logging.getLogger(__name__)
 level = logging.getLevelName(os.environ.get('LOG_LEVEL', 'INFO'))
 logger.setLevel(level)
 
-@wait_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["LOGIN_SUBMIT_BTN"], sleep=3))
+@wait_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["LOGIN_SUBMIT_BTN"], sleep=2))
 def login(driver, id:str, pwd:str):
     input_text(driver, xpath["LOGIN_ID_TF"], id)
     input_text(driver, xpath["LOGIN_PWD_TF"], pwd)
     driver.save_screenshot('screenshot/login.png')
     click_element(driver, xpath["LOGIN_SUBMIT_BTN"])
 
-@wait_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["CLOCK_TIME_TF"], sleep=3))
+@wait_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["CLOCK_TIME_TF"], sleep=2))
 def clock_on(driver, time:str ="09:30"):
     input_text(driver, xpath["CLOCK_TIME_TF"], time)
     driver.save_screenshot('screenshot/clock_on.png')
     click_element(driver, xpath["CLOCK_ON_DIV"])
 
-@wait_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["CLOCK_TIME_TF"], sleep=3))
+@wait_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["CLOCK_TIME_TF"], sleep=2))
 def clock_out(driver, time:str ="18:30"):
     input_text(driver, xpath["CLOCK_TIME_TF"], time)
     driver.save_screenshot('screenshot/clock_out.png')
@@ -47,7 +47,6 @@ def doclock():
         WTMS_URL = os.environ.get("WTMSURL", "https://working-time-management-system-tw.internal.ericsson.com/#/login")
         logger.info(f"1. Open {WTMS_URL}")
         driver.get(WTMS_URL)
-        # driver.maximize_window()
         driver.save_screenshot('screenshot/open.png')
 
         logger.info("2. Login with credentials")
@@ -77,6 +76,51 @@ def doclock():
     finally:
         driver.quit()
 
+
+@click_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["ATTENDANCE_LK"], sleep=1))
+@click_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["RECLOCK_APPROVAL_LK"], sleep=1))
+@wait_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["RECLOCK_APPROVE_ALL_BTN"], sleep=2))
+def approve_all(driver) -> str:
+    total_str = get_text(driver, xpath["RECLOCK_APPROVE_ALL_TOTAL_TX"])
+    if "Total 0" not in total_str:
+        click_element(driver, xpath["RECLOCK_APPROVE_ALL_CB"])
+        click_element(driver, xpath["RECLOCK_APPROVE_ALL_BTN"])
+        driver.save_screenshot('screenshot/approve_all.png')
+    return total_str
+
+def doapprove_all():
+    driver = None
+    try:
+        driver = webdriver.Remote("http://chrome:4444/wd/hub", options=options)
+        WTMS_URL = os.environ.get("WTMSURL", "https://working-time-management-system-tw.internal.ericsson.com/#/login")
+
+        logger.info(f"1. Open {WTMS_URL}")
+        driver.get(WTMS_URL)
+        driver.save_screenshot('screenshot/open.png')
+
+        logger.info("2. Login with credentials")
+        login(driver,
+              id=os.environ.get("WTMS_ID", "myid"),
+              pwd=os.environ.get("WTMS_PWD", "mypwd"))
+
+        total_str = approve_all(driver)
+        logger.info(f"3. Approve All, {total_str} found")
+        return (total_str)
+
+    except TimeoutException as e1:
+        logger.exception("TimeoutException:{}".format(str(e1)))
+        driver.save_screenshot("screenshot/TimeoutException-{}.png".format(TIMESTAMP1))
+        driver.quit()
+    except ConnectionResetError as e2:
+        logger.exception("ConnectionResetError:{}".format(str(e2)))
+        driver.save_screenshot("screenshot/ConnectionResetError-{}.png".format(TIMESTAMP1))
+        driver.quit()
+    except Exception as e:
+        logger.exception("Exception:{}".format(str(e)))
+        driver.save_screenshot("screenshot/Exception-{}.png".format(TIMESTAMP1))
+        driver.quit()
+    finally:
+        driver.quit()
 
 @click_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["ATTENDANCE_LK"], sleep=3))
 @click_until_presence(wc=WaitCondition(timeout=15, xpath=xpath["RECLOCK_LK"], sleep=3))

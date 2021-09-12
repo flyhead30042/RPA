@@ -21,6 +21,10 @@ logger = logging.getLogger(__name__)
 level = logging.getLevelName(os.environ.get('LOG_LEVEL', 'INFO'))
 logger.setLevel(level)
 
+def get_text(driver, xpath) -> str:
+    element = driver.find_element_by_xpath(xpath)
+    return str.strip(element.text)
+
 def click_element(driver, xpath) -> None:
     driver.find_element_by_xpath(xpath).click()
 

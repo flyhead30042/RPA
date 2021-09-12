@@ -13,6 +13,7 @@ services:
     ports:
       - "5000:5000"
     environment:
+      - BUILD=flyhead/wtms:2021.0.2
       - WTMS_URL=${WTMS_URL}
       - WTMS_ID=${WTMS_ID}
       - WTMS_PWD=${WTMS_PWD}
@@ -21,8 +22,10 @@ services:
       - CRONTAB_CLOCK=${CRONTAB_CLOCK}
       - PYTHONPATH=/usr/local/src/wtms
       - TZ=Asia/Taipei
-      - FLASK_ENV=development
+      - FLASK_ENV=production
       - FLASK_APP=wtms/app.py
+      - CRONTAB_APPROVE_ALL_ENABLED=true
+      - CRONTAB_APPROVE_ALL=${CRONTAB_APPROVE_ALL}
     volumes:
       - ./wtms:/usr/local/src/wtms
       - ./wtms/screenshot:/usr/local/src/wtms/screenshot

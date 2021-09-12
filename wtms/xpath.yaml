@@ -5,13 +5,22 @@ XPATH:
   CLOCK_TIME_TF: "/html/body/div[1]/div/div[2]/div[2]/div[2]/div/input"
   CLOCK_ON_DIV: "/html/body/div[1]/div/div[3]/div[1]/div[1]/div"
   CLOCK_OUT_DIV: "/html/body/div[1]/div/div[3]/div[1]/div[2]/div"
-  ATTENDANCE_LK: "/html/body/div[1]/div/div[1]/ul/li[3]"
+  ATTENDANCE_LK: "/html/body/div[1]/div/div[1]/ul/li[3]/div"
   RECLOCK_LK: "/html/body/div[2]/ul/li[2]"
   RECLOCK_DATE_TF: "/html/body/div[1]/div/div[4]/div[2]/form/div[1]/div[2]/div/div/div[1]/input"
   RECLOCK_TIME_ON_TF: "/html/body/div[1]/div/div[4]/div[2]/form/div[1]/div[2]/div/div/div[2]/input"
   RECLOCK_TIME_OUT_TF: "/html/body/div[1]/div/div[4]/div[2]/form/div[1]/div[2]/div/div/div[3]/input"
   RECLOCK_REASON_TA: "/html/body/div[1]/div/div[4]/div[2]/form/div[2]/div[2]/div/div/div/textarea"
   RECLOCK_SUBMIT_BTN: "/html/body/div[1]/div/div[4]/div[2]/form/div[4]/div/div/button[2]"
+  RECLOCK_APPROVAL_LK: "/html/body/div[2]/ul/li[4]"
+  RECLOCK_APPROVE_ALL_CB: "/html/body/div/div/div[5]/div[1]/div[2]/table/thead/tr/th[1]/div/label/span/span"
+  RECLOCK_APPROVE_ALL_BTN: "/html/body/div/div/div[4]/div[1]/div/button[1]"
+  RECLOCK_APPROVE_ALL_TOTAL_TX: "/html/body/div/div/div[5]/div[2]/span[1]"
+
+
+
+
+
 
 
 
