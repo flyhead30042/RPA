@@ -16,6 +16,9 @@ logging.basicConfig(level=level, format="%(asctime)s | %(name)s | %(levelname)s 
 logger = logging.getLogger(__name__)
 level = logging.getLevelName(os.environ.get('LOG_LEVEL', 'INFO'))
 logger.setLevel(level)
+logging.getLogger('apscheduler').setLevel(level)
+logging.getLogger('werkzeug').setLevel(level)
+logging.getLogger('urllib3').setLevel(level)
 tz = os.environ.get('TZ', 'Asia/Taipei')
 
 scheduler = BackgroundScheduler(timezone=tz, job_default={"max_instances": 1})
