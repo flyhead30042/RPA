@@ -18,7 +18,11 @@ level = logging.getLevelName(os.environ.get('LOG_LEVEL', 'INFO'))
 logger.setLevel(level)
 logging.getLogger('apscheduler').setLevel(level)
 logging.getLogger('werkzeug').setLevel(level)
-logging.getLogger('urllib3').setLevel(level)
+from selenium.webdriver.remote.remote_connection import LOGGER as seleniumLogger
+seleniumLogger.setLevel(level)
+from urllib3.connectionpool import log as urllibLogger
+urllibLogger.setLevel(level)
+
 tz = os.environ.get('TZ', 'Asia/Taipei')
 
 scheduler = BackgroundScheduler(timezone=tz, job_default={"max_instances": 1})
