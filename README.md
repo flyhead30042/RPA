@@ -24,7 +24,7 @@
 ### 安裝步驟
 * 建立新目錄 RPA
 ```shell
-cd C:\Users\<USER_NAME>\AppData\local
+cd C:\Users\<USER_NAME>\AppData\Local
 mkdir RPA
 ```
 
