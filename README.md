@@ -1,19 +1,5 @@
 # WTMS 自動打卡
 
-### Change Log
-* Build: flyhead/wtms:2021.0.1
-> 1. Create WTMS based on Docker solution
-> 2. Use Advance Python Scheduler for scheduling  
-> 3. Use Chrome Server on port 4444 for headless simulation   
-> 4. Add Clock job 
-
-* Build: flyhead/wtms:2021.0.2
-> 1. use Flask server for interworking on port 5000
-> 2. Add API for overview
-> 3. Add API for clock now
-> 4. Add API for viewiong PNG files under screenshot folder 
-> 5. Add API for approval of reclock requests
-
 ## 快速安裝
 ### 所需環境 
 
@@ -151,3 +137,21 @@ wtms_1  | 2021-08-12 13:15:26,174 | apscheduler.executors.default | INFO | Job "
  * 除了上述的方式，也可以到右下角 tray 中，右鍵點選小鯨魚，選擇 "Dashboard"，"Containers/Apps"，就可以看見執行中的 Containers: rpa_chrome_1 和 rpa_wtms_1，顏色應該是淺藍色，如果是橘色或灰色則代表有錯誤發生了
  * 點選 container，可以看到 container 的 輸出 log
  * 如果有需要重啟系統，請參考 "執行下列指令開始部屬...." 開始的指令重跑一次就可以了
+
+### Change Log
+* Build: flyhead/wtms:2021.0.1
+> 1. Create WTMS based on Docker solution
+> 2. Use Advance Python Scheduler for scheduling  
+> 3. Use Chrome Server on port 4444 for headless simulation   
+> 4. Add Clock job 
+
+* Build: flyhead/wtms:2021.0.2
+> 1. use Flask server for interworking on port 5000
+> 2. Add API for overview
+> 3. Add API for clock now
+> 4. Add API for viewiong PNG files under screenshot folder 
+> 5. Add API for approval of reclock requests
+> 
+* Build: flyhead/wtms:2021.0.3
+> 1. Fix bug about dynamic elements via Xpath expression such as Clock Out button    
+> 2. Fix bug about switch to Approval menu item due to Attendance is not clickable
