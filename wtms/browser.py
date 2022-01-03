@@ -5,6 +5,7 @@ import yaml
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 import logging
 from selenium.common.exceptions import TimeoutException
@@ -38,6 +39,11 @@ def input_text(driver, xpath, text, end_with_enter=False) -> None:
         element.send_keys(Keys.ENTER)
     logger.debug("text={}, TF={}".format(text, element.get_attribute("value")))
 
+def mouse_over(driver, xpath) -> None:
+    element = driver.find_element_by_xpath(xpath)
+    action = ActionChains(driver)
+    action.move_to_element(element).perform()
+
 class WaitCondition(NamedTuple):
     timeout:int = 15
     xpath:AnyStr= None
@@ -65,30 +71,45 @@ def wait_until_presence(wc:WaitCondition):
             logger.debug("Enter wait_until_presence tag，Func={}".format(func.__name__))
             logger.debug("timeout={}, xpath={}, sleep={}".format(wc.timeout, wc.xpath, wc.sleep))
             try:
+                if wc.sleep > 0: sleep(wc.sleep)
                 WebDriverWait(args[0], wc.timeout).until(EC.presence_of_element_located((By.XPATH, wc.xpath)))
+                return func(*args, **kwargs)
+            except TimeoutException as e:
+                e.msg = "func={}, xpath={}".format(func.__name__, wc.xpath)
+                raise e
+        return wrapper
+    return decorate
+
+
+def wait_until_visible(wc:WaitCondition):
+    def decorate(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            logger.debug("Enter wait_until_presence tag，Func={}".format(func.__name__))
+            logger.debug("timeout={}, xpath={}, sleep={}".format(wc.timeout, wc.xpath, wc.sleep))
+            try:
+                WebDriverWait(args[0], wc.timeout).until(EC.visibility_of_element_located((By.XPATH, wc.xpath)))
                 if wc.sleep > 0: sleep(wc.sleep)
                 return func(*args, **kwargs)
             except TimeoutException as e:
-                e.msg = "func={}".format(func.__name__)
+                e.msg = "func={}, xpath={}".format(func.__name__, wc.xpath)
                 raise e
-
         return wrapper
-
     return decorate
 
-def click_until_presence(wc:WaitCondition):
+def click_until_visible(wc:WaitCondition):
     def decorate(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             logger.debug("Enter open_function tag, Func={}".format(func.__name__))
             logger.debug("timeout={}, xpath={}, sleep={}".format(wc.timeout, wc.xpath, wc.sleep))
             try:
-                element = WebDriverWait(args[0], wc.timeout).until(EC.presence_of_element_located((By.XPATH, wc.xpath)))
+                element = WebDriverWait(args[0], wc.timeout).until(EC.visibility_of_element_located((By.XPATH, wc.xpath)))
                 if wc.sleep > 0: sleep(wc.sleep)
                 element.click()
                 return func(*args, **kwargs)
             except TimeoutException as e:
-                e.msg = "func={}".format(func.__name__)
+                e.msg = "func={}, xpath={}".format(func.__name__, wc.xpath)
                 raise e
         return wrapper
     return decorate
