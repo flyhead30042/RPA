@@ -9,11 +9,11 @@ services:
 
   wtms:
     build: .
-    image: flyhead/wtms:2021.0.2
+    image: flyhead/wtms:2021.0.3
     ports:
       - "5000:5000"
     environment:
-      - BUILD=flyhead/wtms:2021.0.2
+      - BUILD=flyhead/wtms:2021.0.3
       - WTMS_URL=${WTMS_URL}
       - WTMS_ID=${WTMS_ID}
       - WTMS_PWD=${WTMS_PWD}
