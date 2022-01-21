@@ -4,7 +4,7 @@ import os
 from datetime import date
 from selenium.common.exceptions import TimeoutException
 from browser import xpath, loginWithCredentials, Credential, wait_until_presence, WaitCondition, input_text, \
-    click_element, TIMESTAMP1, click_until_visible, get_text, wait_until_visible, mouse_over
+    click_element, TIMESTAMP1, click_until_visible, get_text, wait_until_visible, mouse_over, wait_until_clickable
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -35,8 +35,8 @@ def clock_on(driver, time:str ="09:30"):
     input_text(driver, xpath["CLOCK_TIME_TF"], time, True)
     click_element(driver, xpath["CLOCK_ON_DIV"])
 
-@wait_until_visible(wc=WaitCondition(timeout=15, xpath=xpath["CLOCK_TIME_TF"], sleep=2))
-@wait_until_visible(wc=WaitCondition(timeout=15, xpath=xpath["CLOCK_OUT_DIV"], sleep=2))
+@wait_until_clickable(wc=WaitCondition(timeout=15, xpath=xpath["CLOCK_TIME_TF"], sleep=2))
+@wait_until_clickable(wc=WaitCondition(timeout=15, xpath=xpath["CLOCK_OUT_DIV"], sleep=2))
 def clock_out(driver, time:str ="18:30"):
     input_text(driver, xpath["CLOCK_TIME_TF"], time, True)
     click_element(driver, xpath["CLOCK_OUT_DIV"])
